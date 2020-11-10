@@ -15,6 +15,7 @@
         "experimentalDecorators": true,
         "noImplicitAny": false,
         "target": "ESNext",
+        "jsx": "react",
         "paths": {
             "@kitcon/core/*": [
                 "../kitcon-core/src/*"
