@@ -40,7 +40,7 @@ export class HttpService {
                 query: qs.parse(params.query)
             }
 
-            if (request.method === 'POST') {
+            if (request.method === 'POST' || request.method === 'PUT') {
                 try {
                     context.body = await this.readBody(request);
                 } catch (e) {
@@ -54,10 +54,6 @@ export class HttpService {
                 try {
                     context.meta = { user: this.jwtService.unpack(request.headers.authorization.slice(7)) }
                 } catch (e) {
-                    response.statusCode = 403;
-                    response.write(JSON.stringify({ message: 'Token expired' }));
-                    response.end();
-
                 }
             }
 
