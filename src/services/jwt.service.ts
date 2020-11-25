@@ -7,12 +7,18 @@ import { v4 } from 'uuid';
 
 @Injectable
 export class JwtService {
-    publicKey = fs.readFileSync(
-        path.join((global as any).ROOT_PATH, '..', 'keys', 'public.key')
-    );
-    private privateKey = fs.readFileSync(
-        path.join((global as any).ROOT_PATH, '..', 'keys', 'private.key')
-    );
+    publicKey: any;
+    private privateKey: any;
+    constructor() {
+        if (fs.existsSync(path.join((global as any).ROOT_PATH, '..', 'keys', 'public.key'))) {
+            this.publicKey = fs.readFileSync(
+                path.join((global as any).ROOT_PATH, '..', 'keys', 'public.key')
+            );
+            this.privateKey = fs.readFileSync(
+                path.join((global as any).ROOT_PATH, '..', 'keys', 'private.key')
+            );
+        }
+    }
 
     public unpack(token: string): KeyAnyType {
         return jwt.verify(token, this.publicKey, {

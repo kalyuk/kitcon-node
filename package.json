@@ -1,5 +1,5 @@
 {
-  "name": "kitcon-node",
+  "name": "@kitcon/node",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
