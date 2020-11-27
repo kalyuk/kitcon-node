@@ -11,6 +11,7 @@ export class JwtService {
     private privateKey: any;
     constructor() {
         if (fs.existsSync(path.join((global as any).ROOT_PATH, '..', 'keys', 'public.key'))) {
+            console.log
             this.publicKey = fs.readFileSync(
                 path.join((global as any).ROOT_PATH, '..', 'keys', 'public.key')
             );
