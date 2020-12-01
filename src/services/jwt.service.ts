@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as jwt from 'jsonwebtoken';
 import { v4 } from 'uuid';
+import { Exception } from '@kitcon/core/exception';
 
 @Injectable
 export class JwtService {
@@ -22,9 +23,13 @@ export class JwtService {
     }
 
     public unpack(token: string): KeyAnyType {
-        return jwt.verify(token, this.publicKey, {
-            algorithms: ['RS256']
-        }) as any;
+        try {
+            return jwt.verify(token, this.publicKey, {
+                algorithms: ['RS256']
+            }) as any;
+        } catch (e) {
+            throw new Exception('Invalid token', 409);
+        }
     }
 
     public createToken(data: any, expiresIn: any, jwtid?: string) {

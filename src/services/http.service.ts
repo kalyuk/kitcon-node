@@ -4,7 +4,7 @@ import { RouteService } from './route.service';
 import * as url from 'url';
 import * as qs from 'qs';
 import { ContextInterface } from '../context';
-// import { JwtService } from './jwt.service';
+import { JwtService } from './jwt.service';
 
 @Injectable
 export class HttpService {
@@ -12,8 +12,8 @@ export class HttpService {
     @resolve
     private routeService: RouteService;
 
-    // @resolve
-    // private jwtService: JwtService;
+    @resolve
+    private jwtService: JwtService;
 
     private readonly server = http.createServer();
 
@@ -50,12 +50,12 @@ export class HttpService {
                 }
             }
 
-            // if (request.headers.authorization && request.headers.authorization.slice(0, 6) === "Bearer") {
-            //     try {
-            //         context.meta = { user: this.jwtService.unpack(request.headers.authorization.slice(7)) }
-            //     } catch (e) {
-            //     }
-            // }
+            if (request.headers.authorization && request.headers.authorization.slice(0, 6) === "Bearer") {
+                try {
+                    context.meta = { user: this.jwtService.unpack(request.headers.authorization.slice(7)) }
+                } catch (e) {
+                }
+            }
 
             const pattern = request.method + ' ' + params.pathname;
             const result = await this.routeService.run(pattern, context);
