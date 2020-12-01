@@ -50,10 +50,14 @@ export class HttpService {
                 }
             }
 
+
             if (request.headers.authorization && request.headers.authorization.slice(0, 6) === "Bearer") {
                 try {
-                    context.meta = { user: this.jwtService.unpack(request.headers.authorization.slice(7)) }
+                    context.meta = { user: this.jwtService.unpack(request.headers.authorization.replace('Bearer ', '')) };
                 } catch (e) {
+                    response.statusCode = 409;
+                    response.write(JSON.stringify(e));
+                    return response.end();
                 }
             }
 
